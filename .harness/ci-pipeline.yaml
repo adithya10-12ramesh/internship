@@ -4,15 +4,6 @@ pipeline:
   projectIdentifier: default_project
   orgIdentifier: default
   tags: {}
-  properties:
-    ci:
-      codebase:
-        connectorRef: Adithya
-        repoName: internship
-        build:
-          type: branch
-          spec:
-            branch: main
   stages:
     - stage:
         name: Build_Test
