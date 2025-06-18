@@ -1,0 +1,55 @@
+pipeline:
+  name: internship
+  identifier: internship
+  projectIdentifier: default_project
+  orgIdentifier: default
+  tags: {}
+  properties:
+    ci:
+      codebase:
+        connectorRef: Adithya
+        repoName: internship
+        build:
+          type: branch
+          spec:
+            branch: main
+  stages:
+    - stage:
+        name: Build_Test
+        identifier: Build_Test
+        type: CI
+        spec:
+          infrastructure:
+            type: UseFromStage
+            spec:
+              connectorRef: harness_cloud
+              namespace: default
+              automountServiceAccountToken: true
+          execution:
+            steps:
+              - step:
+                  name: Setup Python
+                  identifier: SetupPython
+                  type: Run
+                  spec:
+                    shell: Bash
+                    command: |
+                      apt-get update
+                      apt-get install -y python3 python3-pip
+              - step:
+                  name: Install Dependencies
+                  identifier: InstallDependencies
+                  type: Run
+                  spec:
+                    shell: Bash
+                    command: |
+                      pip3 install -r requirements.txt
+              - step:
+                  name: Run Pytest
+                  identifier: RunTests
+                  type: Run
+                  spec:
+                    shell: Bash
+                    command: |
+                      pip3 install pytest
+                      pytest tests/
